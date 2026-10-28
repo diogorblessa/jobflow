@@ -1,0 +1,6 @@
+{
+  "name": "JobFlow",
+  "description": "Aplicação para organização e gestão de candidaturas a vagas em tecnologia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
