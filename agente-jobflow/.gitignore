@@ -62,6 +62,8 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.swp
+.*.swp
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
