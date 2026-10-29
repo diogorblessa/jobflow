@@ -45,6 +45,22 @@ Interface moderna construída para substituir planilhas manuais e centralizar to
 - **Perfil Profissional:** Armazenamento centralizado de cargo pretendido, resumo profissional, habilidades técnicas e anos de experiência.
 - **Persistência Local:** Salvamento instantâneo no navegador através de `localStorage` com dados de demonstração no primeiro uso.
 
+### 📸 Visão Geral da Interface
+
+#### Painel Principal e Funil de Candidaturas
+Visão consolidada com métricas de cada etapa, busca rápida, filtros e cards detalhados com indicadores de prazo e histórico:
+![Painel Principal do JobFlow](images/01.png)
+
+#### Cadastro Detalhado de Vagas
+Formulário com suporte a modelo de contratação (CLT, PJ, Internacional), controle de versões de currículo, anotações de entrevistas e descrição completa:
+<p align="center">
+  <img src="images/02.png" alt="Formulário de Cadastro de Candidatura" width="600" />
+</p>
+
+#### Perfil Profissional e Gestão de Habilidades
+Configuração do perfil do candidato, incluindo cargo almejado, pitch de apresentação e gerenciamento de competências técnicas que alimentam o agente inteligente:
+![Meu Perfil Profissional](images/03.png)
+
 ### Tecnologias do Frontend
 - **React 19** + **TypeScript**
 - **Vite** (build tool)
