@@ -4,8 +4,6 @@
 
 JobFlow é uma aplicação web para organizar candidaturas a vagas de tecnologia. A ideia é sair da planilha solta e ter num só lugar todas as vagas, em que etapa cada uma está e quais prazos estão chegando.
 
-Projeto desenvolvido durante a **Imersão Engenharia de Software: Dev na Era da IA** (Alura + Google).
-
 ## O que já funciona
 
 - Cadastro, edição e exclusão de candidaturas
