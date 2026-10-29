@@ -1,92 +1,95 @@
-# agente-jobflow
+# Agente JobFlow (`agente-jobflow`)
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `1.12.0`
-
-## Project Structure
-
-```
-agente-jobflow/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   ├── fast_api_app.py        # FastAPI Backend server
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
-```
-
-> 💡 **Tip:** Use [Antigravity CLI](https://antigravity.google/) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
-
-## Requirements
-
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
-
-
-## Quick Start
-
-Install `agents-cli` and its skills if not already installed:
-
-```bash
-uvx google-agents-cli setup
-```
-
-Install required packages:
-
-```bash
-agents-cli install
-```
-
-Test the agent with a local web server:
-
-```bash
-agents-cli playground
-```
-
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        || [A2A Inspector](https://github.com/a2aproject/a2a-inspector) | Launch A2A Protocol Inspector                                                        |
-
-## 🛠️ Project Management
-
-| Command | What It Does |
-|---------|--------------|
-| `agents-cli scaffold enhance` | Add CI/CD pipelines and Terraform infrastructure |
-| `agents-cli infra cicd` | One-command setup of entire CI/CD pipeline + infrastructure |
-| `agents-cli scaffold upgrade` | Auto-upgrade to latest version while preserving customizations |
+Agente autônomo baseado no **Google ADK** (Agent Development Kit) em Python, desenvolvido para analisar vagas de tecnologia em comparação com o perfil do candidato no JobFlow.
 
 ---
 
-## Development
+## 🎯 Objetivo
 
-Edit your agent logic in `app/agent.py` and test with `agents-cli playground` - it auto-reloads on save.
+A partir das informações de uma candidatura (empresa, título da vaga, descrição e etapa do processo) e do perfil do candidato (habilidades, resumo profissional e experiência), o agente:
+1. **Extrai a stack técnica:** separa competências em requisitos obrigatórios e desejáveis.
+2. **Calcula a aderência percentual:** avalia a compatibilidade de forma transparente e honesta (sem inventar experiências).
+3. **Mapeia pontos fortes e lacunas:** prioriza ações concretas de acordo com a etapa atual do processo seletivo (*Wishlist, Aplicado, Screening, Desafio técnico, Entrevista técnica, Entrevista cultural, Oferta, Rejeitado*).
+4. **Persiste e atualiza relatórios JSON:** utiliza ferramentas seguras de arquivo (`WriteFile` e `ReadFile`) para salvar o resultado em `analises/` no formato consumível pelo app JobFlow.
 
-## Deployment
+---
 
-```bash
-gcloud config set project <your-project-id>
-agents-cli deploy
+## 📂 Arquitetura
+
+O projeto adota separação de responsabilidades (SoC) e boas práticas de arquitetura de software:
+
+```text
+agente-jobflow/
+├── app/
+│   ├── config.py             # Configurações de modelo, diretórios e caminhos
+│   ├── prompt.py             # Instruction provider dinâmico (injeção de data YYYY-MM-DD)
+│   ├── tools.py              # Ferramentas de arquivo (FerramentasDeArquivo) e SkillToolset
+│   ├── agent.py              # Composição do root_agent e exposição do app ADK
+│   └── skills/
+│       └── analise-vaga/     # Skill com divulgação progressiva (SKILL.md, references, assets)
+├── analises/                 # Diretório de persistência de JSONs (ignorado no Git)
+├── tests/
+│   └── unit/
+│       └── test_verificacao.py # Testes determinísticos do agente e ferramentas
+├── .env.example              # Modelo de variáveis de ambiente
+├── pyproject.toml            # Dependências gerenciadas via uv
+└── README.md
 ```
 
-To add CI/CD and Terraform, run `agents-cli scaffold enhance`.
-To set up your production infrastructure, run `agents-cli infra cicd`.
+---
 
-## Observability
+## 🚀 Pré-requisitos e Instalação
 
-Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.
+1. **Python 3.12+**
+2. **uv** (gerenciador rápido de pacotes Python):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
 
-## A2A Inspector
+### 1. Configurar variáveis de ambiente
 
-This agent supports the [A2A Protocol](https://a2a-protocol.org/). Use the [A2A Inspector](https://github.com/a2aproject/a2a-inspector) to test interoperability.
-See the [A2A Inspector docs](https://github.com/a2aproject/a2a-inspector) for details.
+Copie o arquivo de exemplo para `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Edite o `.env` e insira sua chave da API do Google AI Studio:
+
+```env
+GOOGLE_GENAI_USE_VERTEXAI=FALSE
+GEMINI_API_KEY=sua-api-key-do-gemini-aqui
+MODEL=gemini-3.8-flash
+```
+
+> [!CAUTION]
+> O arquivo `.env` e as análises geradas em `analises/` contêm dados sensíveis e credenciais privadas, estando blindados e ignorados pelo Git. Nunca versione credenciais reais.
+
+### 2. Sincronizar dependências
+
+```bash
+uv sync
+```
+
+---
+
+## 🖥️ Execução Local (ADK Web)
+
+Inicie o servidor de desenvolvimento do ADK:
+
+```bash
+uv run adk web --allow_origins="*"
+```
+
+- Acesse a interface web em `http://127.0.0.1:8000` (ou via **Web Preview** na porta 8000 no Google Cloud Shell).
+- Selecione o agente `app` na barra lateral para iniciar a conversa interativa.
+
+---
+
+## 🧪 Testes Automatizados
+
+O projeto inclui testes de validação determinísticos que verificam a configuração do agente, isolamento de ferramentas, injeção de data e integridade da skill sem necessidade de chamadas externas de LLM:
+
+```bash
+uv run pytest
+```
