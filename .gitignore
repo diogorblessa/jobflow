@@ -6,3 +6,11 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Agente (Python/ADK)
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.adk/
+agente-jobflow/analises/
