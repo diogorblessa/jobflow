@@ -13,4 +13,5 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .adk/
-agente-jobflow/analises/
+agente-jobflow/analises/*
+!agente-jobflow/analises/.gitignore

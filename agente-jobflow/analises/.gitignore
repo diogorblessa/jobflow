@@ -1,0 +1,3 @@
+# Ignora todas as análises de candidatos para proteger dados sensíveis
+*
+!.gitignore

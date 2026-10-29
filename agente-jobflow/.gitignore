@@ -196,7 +196,8 @@ Thumbs.db
 
 # ADK
 .adk/
-analises/
+analises/*
+!analises/.gitignore
 
 # Agent CLI specific
 .persist_vector_store
