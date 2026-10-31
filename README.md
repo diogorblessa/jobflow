@@ -184,5 +184,5 @@ Ao testar o agente no ADK Web, valide os 4 cenários essenciais:
 
 ## 👤 Autor
 
-**Diogo Blessa**  
+**Diogo Lessa**  
 [GitHub](https://github.com/diogorblessa) · [LinkedIn](https://linkedin.com/in/diogorblessa)
